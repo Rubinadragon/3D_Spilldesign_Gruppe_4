@@ -8,7 +8,9 @@ public class ThirdPersonPlayer : MonoBehaviour
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private LayerMask groundLayer; // Lagmaske for bakken
-    [SerializeField] private float raycastDistance = 0.2f; // Juster denne verdien
+    [SerializeField] private float raycastDistance = 0.5f; // Juster denne verdien
+    [SerializeField] private InputActionReference jumpControl;
+    [SerializeField] private InputActionReference movementControl;
 
     private Vector2 moveInput;
     private CharacterController controller;
@@ -27,11 +29,13 @@ public class ThirdPersonPlayer : MonoBehaviour
     private void OnEnable()
     {
         playerControls.Enable();
+        jumpControl.action.Enable();
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
+        jumpControl.action.Disable();
     }
 
     private void Update()
@@ -52,6 +56,8 @@ public class ThirdPersonPlayer : MonoBehaviour
         Vector2 inputVector = playerControls.PlayerMovement.Movement.ReadValue<Vector2>();
         Vector3 movementVector = new Vector3(inputVector.x, 0, inputVector.y);
 
+        playerVelocity.y += gravity * Time.deltaTime;
+
         // Hvis det er noen inputbevegelser
         if (movementVector.magnitude >= 0.1f)
         {
@@ -67,17 +73,11 @@ public class ThirdPersonPlayer : MonoBehaviour
             controller.Move(moveDirection * speed * Time.deltaTime);
         }
 
-        if (playerControls.PlayerMovement.Jump.triggered)
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            Debug.Log("Jump pressed!");
-
-            if (groundedPlayer)
-            {
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
-                Debug.Log("Jump velocity: " + playerVelocity.y); // Sjekk hopphastigheten
-            }
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravity);
         }
 
-       
+
     }
 }
