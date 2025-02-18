@@ -3,66 +3,76 @@ using UnityEngine.InputSystem;
 
 public class ThirdPersonPlayer : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] public float jumpHeight = 250;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float rotationSpeed = 10f;
- 
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float groundCheckDistance = 0.2f;
 
-    private Vector2 moveInput;
-    private CharacterController controller;
+    private Rigidbody rb;
     private PlayerControls playerControls;
-    private Vector3 playerVelocity;
-    public bool groundedPlayer; //er default false
-    public Transform groundChecher;
-    public LayerMask _layer;
-    private Transform cameraMainTransform;
+    private Vector2 moveInput;
+    private bool isGrounded;
+    private Transform cameraTransform;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        cameraTransform = Camera.main.transform;
+
         playerControls = new PlayerControls();
-        controller = GetComponent<CharacterController>();
-        cameraMainTransform = Camera.main.transform;
+        playerControls.PlayerMovement.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        playerControls.PlayerMovement.Movement.canceled += ctx => moveInput = Vector2.zero;
+        playerControls.PlayerMovement.Jump.performed += ctx => Jump();
     }
 
-    private void OnEnable()
+    private void OnEnable() => playerControls.Enable();
+    private void OnDisable() => playerControls.Disable();
+
+    private void FixedUpdate()
     {
-        playerControls.Enable();
-       
+        CheckGrounded();
+        Move();
     }
 
-    private void OnDisable()
+    private void CheckGrounded()
     {
-        playerControls.Disable();
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        isGrounded = Physics.Raycast(origin, Vector3.down, groundCheckDistance, groundLayer);
+
+        Debug.DrawRay(origin, Vector3.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
+
+        Debug.Log("Raycast treff: " + isGrounded);
+
     }
 
-    private void Update()
+    private void Move()
     {
-        groundedPlayer = Physics.CheckSphere(groundChecher.position, 0.5f, _layer);
-
-        // Hent inputbevegelse
-        Vector2 inputVector = playerControls.PlayerMovement.Movement.ReadValue<Vector2>();
-        Vector3 movementVector = new Vector3(inputVector.x, 0, inputVector.y);
-
-        // Hvis det er noen inputbevegelser
-        if (movementVector.magnitude >= 0.1f)
+        Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        if (moveDirection.magnitude >= 0.1f)
         {
-            // Beregn ønsket rotasjonsretning basert på input
-            float targetAngle = Mathf.Atan2(movementVector.x, movementVector.z) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            Vector3 forward = cameraTransform.forward;
+            Vector3 right = cameraTransform.right;
+            forward.y = 0;
+            right.y = 0;
+            forward.Normalize();
+            right.Normalize();
 
-            // Rotere karakteren jevnt til ønsket retning
+            Vector3 finalDirection = (forward * moveDirection.z + right * moveDirection.x).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            // Beveg karakteren i den nåværende rotasjonen
-            Vector3 moveDirection = transform.forward * movementVector.magnitude; // Bruker transform.forward for riktig bevegelsesretning
-            controller.Move(moveDirection * speed * Time.deltaTime);
+            rb.MovePosition(rb.position + finalDirection * moveSpeed * Time.fixedDeltaTime);
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) && groundedPlayer)
+    private void Jump()
+    {
+        if (isGrounded)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpHeight);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // Nullstiller y-hastighet fÃ¸r hopp
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
-
-
     }
 }
