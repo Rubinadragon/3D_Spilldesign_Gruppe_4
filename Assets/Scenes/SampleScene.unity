@@ -633,13 +633,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 5
-  rotationSpeed: 10
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
   runSpeed: 10
-  groundCheckDistance: 0.2
+  jumpForce: 5
 --- !u!54 &593351576
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -680,13 +675,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 15
-  rotationSpeed: 10
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
   runSpeed: 10
-  groundCheckDistance: 0.2
+  jumpForce: 15
 --- !u!136 &593351578
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -855,7 +845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 957330161}
   rotationalSpeed: 20
-  bottomClamp: -40
+  bottomClamp: -38.1
   topClamp: 70
   mouseButtonToUse: 0
 --- !u!114 &1289131086
@@ -914,8 +904,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 593351573}
-  smoothSpeed: 0.125
-  offset: {x: 0, y: 0.7, z: -4}
+  smoothTime: 0.2
+  offset: {x: 0, y: 3, z: -7.5}
 --- !u!1 &1632075969
 GameObject:
   m_ObjectHideFlags: 0
