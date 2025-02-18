@@ -7,6 +7,7 @@ public class ThirdPersonPlayer : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float groundCheckDistance = 0.2f;
 
     private Rigidbody rb;
@@ -54,16 +55,23 @@ public class ThirdPersonPlayer : MonoBehaviour
         {
             Vector3 forward = cameraTransform.forward;
             Vector3 right = cameraTransform.right;
+
             forward.y = 0;
             right.y = 0;
+
             forward.Normalize();
             right.Normalize();
 
             Vector3 finalDirection = (forward * moveDirection.z + right * moveDirection.x).normalized;
+
+            float currentMoveSpeed = playerControls.PlayerMovement.Run.IsPressed() ? runSpeed : moveSpeed;
+
             Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            rb.MovePosition(rb.position + finalDirection * moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + finalDirection * currentMoveSpeed * Time.fixedDeltaTime);
+
+            Debug.Log("Run Input Value: " + playerControls.PlayerMovement.Run.IsPressed());
         }
     }
 
@@ -71,8 +79,7 @@ public class ThirdPersonPlayer : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // Nullstiller y-hastighet før hopp
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 }
