@@ -1,50 +1,53 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform followTarget;
-    [SerializeField] private float rotationalSpeed = 10f;
+    [SerializeField] private float rotationalSpeed = 200f;
+    [SerializeField] private float panSpeed = 5f;
     [SerializeField] private float bottomClamp = -40f;
     [SerializeField] private float topClamp = 70f;
 
-    private float cinemachineTargetPitch;
-    private float cinemachineTargetYaw;
-    [SerializeField] private int mouseButtonToUse = 0; 
+    private PlayerControls playerControls;
+    private Vector2 lookInput;
+    private Vector2 panInput;
+    private float yaw;
+    private float pitch;
 
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+
+        // Rotasjon (Look)
+        playerControls.Camera.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        playerControls.Camera.Look.canceled += ctx => lookInput = Vector2.zero;
+
+        // Panorering (Pan) - Piltaster
+        playerControls.Camera.Pan.performed += ctx => panInput = ctx.ReadValue<Vector2>();
+        playerControls.Camera.Pan.canceled += ctx => panInput = Vector2.zero;
+    }
+
+    private void OnEnable() => playerControls.Enable();
+    private void OnDisable() => playerControls.Disable();
 
     private void LateUpdate()
     {
-        CameraLogic();
-    }
-
-    private void CameraLogic()
-    {
-        // Sjekk om en museknapp er trykket (venstre, høyre eller midt)
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+        // Rotasjon
+        if (lookInput.magnitude > 0.1f)
         {
-            float mouseX = GetMouseInput("Mouse X");
-            float mouseY = GetMouseInput("Mouse Y");
+            yaw += lookInput.x * rotationalSpeed * Time.deltaTime;
+            pitch -= lookInput.y * rotationalSpeed * Time.deltaTime;
+            pitch = Mathf.Clamp(pitch, bottomClamp, topClamp);
 
-            cinemachineTargetPitch = UpdateRotation(cinemachineTargetPitch, mouseY, bottomClamp, topClamp, true);
-            cinemachineTargetYaw = UpdateRotation(cinemachineTargetYaw, mouseX, float.MinValue, float.MaxValue, false);
-
-            ApplyRotations(cinemachineTargetPitch, cinemachineTargetYaw);
+            followTarget.rotation = Quaternion.Euler(pitch, yaw, 0f);
         }
-    }
 
-    private void ApplyRotations (float pitch, float yaw)
-    {
-        followTarget.rotation = Quaternion.Euler(pitch, yaw, followTarget.eulerAngles.z);
-    }
-
-    private float UpdateRotation(float currentRotation, float input, float min, float max, bool isAxis)
-    {
-        currentRotation += isAxis ? -input : input;
-        return Mathf.Clamp(currentRotation, min, max);
-    }
-
-    private float GetMouseInput(string axis)
-    {
-        return Input.GetAxis(axis) * rotationalSpeed * Time.deltaTime;
+        // Panorering
+        if (panInput.magnitude > 0.1f)
+        {
+            Vector3 panMovement = transform.right * panInput.x + transform.forward * panInput.y;
+            followTarget.position += panMovement * panSpeed * Time.deltaTime;
+        }
     }
 }
