@@ -714,9 +714,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 380347698}
   rotationalSpeed: 30
+  panSpeed: 5
   bottomClamp: -40
   topClamp: 70
-  mouseButtonToUse: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,9 +845,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 957330161}
   rotationalSpeed: 20
+  panSpeed: 5
   bottomClamp: -38.1
   topClamp: 70
-  mouseButtonToUse: 0
 --- !u!114 &1289131086
 MonoBehaviour:
   m_ObjectHideFlags: 0
