@@ -8,6 +8,9 @@ public class CrystalDestroy : MonoBehaviour
     //Hvis spilleren har samlet nok krystaller, spawn en siste stor riftkrystall
     public GameObject RiftCrystals;
     private int CrystalAmountInLvl;
-    
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+       
+    }
+
 }
