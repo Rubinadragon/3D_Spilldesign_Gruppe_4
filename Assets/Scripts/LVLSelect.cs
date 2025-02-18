@@ -15,7 +15,7 @@ public class LVLSelect : MonoBehaviour
         {
             int nextScene = currentSceneIndex + 1;
             SceneManager.LoadScene(nextScene);
-            Debug.Log(currentSceneIndex);
+            
         }
         else if (collision.gameObject.CompareTag("LVL1"))
         {
@@ -26,10 +26,12 @@ public class LVLSelect : MonoBehaviour
         {
             int nextScene = currentSceneIndex + 3;
             SceneManager.LoadScene(nextScene);
-        } else if (collision.gameObject.CompareTag("Finish"))
+        } 
+        else if (collision.gameObject.CompareTag("Finish"))
         {
             int nextScene = currentSceneIndex;
             SceneManager.LoadScene(0);
+            //Debug.Log(currentSceneIndex);
         }
     }
 }
