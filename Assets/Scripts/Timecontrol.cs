@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    public KeyCode slowDownKey = KeyCode.Alpha1; // Tast 1 for å sakke ned
-    public KeyCode stopTimeKey = KeyCode.Alpha2; // Tast 2 for å stoppe tiden
-    public KeyCode resetTimeKey = KeyCode.Alpha3; // Tast 3 for å nullstille tiden
+    public KeyCode slowDownKey = KeyCode.Alpha1;
+    public KeyCode stopTimeKey = KeyCode.Alpha2; 
+    public KeyCode resetTimeKey = KeyCode.Alpha3;
 
     [Range(0f, 1f)]
-    public float slowTimeScale = 0.2f; // Hastighet når tiden sakses
+    // Hastighet når tiden sakses
+    public float slowTimeScale = 0.2f; 
 
-    private float normalTimeScale = 1f; // Normal hastighet
+    private float normalTimeScale = 1f;
 
     void Update()
     {
@@ -30,7 +31,7 @@ public class TimeController : MonoBehaviour
     void SlowDownTime()
     {
         Time.timeScale = slowTimeScale;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale; // Sikrer riktig fysikksimulering
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
     void StopTime()
