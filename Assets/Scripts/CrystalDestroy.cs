@@ -6,11 +6,19 @@ public class CrystalDestroy : MonoBehaviour
     //Finne dynamisk antall krystaller basert på scenen
     //Når spilleren rører bort i en krystall, ødelegg krystall og reduser total mengde krystaller i scenen med 1
     //Hvis spilleren har samlet nok krystaller, spawn en siste stor riftkrystall
+    //HUSK: Ha en variabel på spilleren som teller antall krystaller ødelagt.
     public GameObject RiftCrystals;
+    private int TotalCrystalsDestroyed = 0;
     private int CrystalAmountInLvl;
-    private void OnCollisionEnter(Collision collision)
-    {
-       
-    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Tag: " + other.gameObject.tag);
+       if(other.gameObject.CompareTag("RiftCrystal"))
+        {
+            Debug.Log(TotalCrystalsDestroyed);
+            TotalCrystalsDestroyed++;
+            Destroy(other.gameObject);
+        }
+    }
 }
