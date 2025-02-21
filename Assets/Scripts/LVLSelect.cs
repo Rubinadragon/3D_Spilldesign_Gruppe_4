@@ -9,21 +9,24 @@ public class LVLSelect : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; //Hvillken scene spilleren er i nå
         int numberOfScenes = SceneManager.sceneCountInBuildSettings - 1; //Antall scener det er totalt
         //string LVLString = $"LVL{}";
-
+        //Debug.Log(gameObject.tag);
 
         if (collision.gameObject.CompareTag("LVL0"))
         {
+            Debug.Log(currentSceneIndex);
             int nextScene = currentSceneIndex + 1;
             SceneManager.LoadScene(nextScene);
             
         }
         else if (collision.gameObject.CompareTag("LVL1"))
         {
+            Debug.Log(currentSceneIndex);
             int nextScene = currentSceneIndex + 2;
             SceneManager.LoadScene(nextScene);
         }
         else if (collision.gameObject.CompareTag("LVL2"))
         {
+            Debug.Log(currentSceneIndex);
             int nextScene = currentSceneIndex + 3;
             SceneManager.LoadScene(nextScene);
         } 
@@ -31,7 +34,6 @@ public class LVLSelect : MonoBehaviour
         {
             int nextScene = currentSceneIndex;
             SceneManager.LoadScene(0);
-            //Debug.Log(currentSceneIndex);
         }
     }
 }
