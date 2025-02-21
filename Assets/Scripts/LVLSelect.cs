@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class LVLSelect : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; //Hvillken scene spilleren er i nå
         int numberOfScenes = SceneManager.sceneCountInBuildSettings - 1; //Antall scener det er totalt
         //string LVLString = $"LVL{}";
-        //Debug.Log(gameObject.tag);
+        Debug.Log(gameObject.tag);
 
         if (collision.gameObject.CompareTag("LVL0"))
         {
@@ -34,6 +35,7 @@ public class LVLSelect : MonoBehaviour
         {
             int nextScene = currentSceneIndex;
             SceneManager.LoadScene(0);
+            Debug.Log("Kollisjon");
         }
     }
 }
