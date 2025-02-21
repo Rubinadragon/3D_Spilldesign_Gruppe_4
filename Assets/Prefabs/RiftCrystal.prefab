@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RiftCrystal
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
+      propertyPath: m_TagString
+      value: RiftCrystal
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
       propertyPath: m_LocalScale.x
       value: 26.146774
@@ -71,9 +75,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1824594664674795498}
-    - targetCorrespondingSourceObject: {fileID: 100000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3403425611258956161}
   m_SourcePrefab: {fileID: 100100000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
 --- !u!1 &4165521575333873009 stripped
 GameObject:
@@ -101,16 +102,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.051456627, y: 0.051840115, z: 0.037308283}
   m_Center: {x: -0.005565625, y: 0.023469409, z: 0.013663683}
---- !u!114 &3403425611258956161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4165521575333873009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d22c6337376f9740bd3fc566f5abb5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RiftCrystals: {fileID: 4165521575333873009}
