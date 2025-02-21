@@ -13,12 +13,8 @@ public class CrystalDestroy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Tag: " + other.gameObject.tag);
-       if(other.gameObject.CompareTag("RiftCrystal"))
-        {
-            Debug.Log(TotalCrystalsDestroyed);
-            TotalCrystalsDestroyed++;
-            Destroy(other.gameObject);
-        }
+        TotalCrystalsDestroyed++;
+        Debug.Log(TotalCrystalsDestroyed);
+        Destroy(gameObject);
     }
 }
