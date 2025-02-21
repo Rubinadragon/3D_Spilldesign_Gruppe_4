@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 3338956910989398249}
   - component: {fileID: 4443317456279571659}
   - component: {fileID: 5890748190180112909}
+  - component: {fileID: 7066096963289547536}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +137,18 @@ MonoBehaviour:
   panSpeed: 5
   bottomClamp: -40
   topClamp: 70
+--- !u!114 &7066096963289547536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986906216023813661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eca11242b72a2644aa2a7ae2abdbdaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2896943500673146610
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +223,7 @@ GameObject:
   - component: {fileID: 7696706317008146090}
   - component: {fileID: 6636893110912369436}
   - component: {fileID: 836783727825040986}
+  - component: {fileID: 8035393844220689598}
   m_Layer: 0
   m_Name: GFX
   m_TagString: Untagged
@@ -309,6 +323,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8035393844220689598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7583825334343725934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eca11242b72a2644aa2a7ae2abdbdaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8763830145981546137
 GameObject:
   m_ObjectHideFlags: 0
