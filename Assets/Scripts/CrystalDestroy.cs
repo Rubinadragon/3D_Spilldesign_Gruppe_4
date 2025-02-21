@@ -8,8 +8,6 @@ public class CrystalDestroy : MonoBehaviour
     //Hvis spilleren har samlet nok krystaller, spawn en siste stor riftkrystall
     //HUSK: Ha en variabel på spilleren som teller antall krystaller ødelagt.
     public GameObject RiftCrystals;
-    private int TotalCrystalsDestroyed = 0;
-    private int CrystalAmountInLvl;
 
     private void OnTriggerEnter(Collider other)
     {
