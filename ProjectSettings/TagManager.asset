@@ -7,7 +7,6 @@ TagManager:
   - LVL1
   - LVL2
   - LVL0
-  - RiftCrystal
   layers:
   - Default
   - TransparentFX
