@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 1375749139}
   m_Layer: 0
   m_Name: ToLVL1
-  m_TagString: LVL1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 2002902300}
   m_Layer: 0
   m_Name: ToLVL2
-  m_TagString: LVL2
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -771,7 +771,7 @@ GameObject:
   - component: {fileID: 2114535447}
   m_Layer: 0
   m_Name: ToPracticeLVL
-  m_TagString: LVL0
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
