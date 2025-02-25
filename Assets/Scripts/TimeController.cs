@@ -1,51 +1,46 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class TimeController : MonoBehaviour
 {
-    public KeyCode slowDownKey = KeyCode.Alpha1;
-    public KeyCode stopTimeKey = KeyCode.Alpha2;
+    public KeyCode slowDownKey = KeyCode.Alpha1; 
+    public KeyCode stopTimeKey = KeyCode.Alpha2; 
     public KeyCode resetTimeKey = KeyCode.Alpha3; 
 
     [Range(0f, 1f)]
     public float slowTimeScale = 0.2f; 
+
     private float normalTimeScale = 1f; 
 
-    public GameObject player; 
-    public Transform startPoint; 
+    public int playerLives = 3; 
 
-    private List<Rigidbody> affectedObjects = new List<Rigidbody>();
+    public float slowLifeLossRate = 0.1f; 
+    public float stopLifeLossRate = 0.5f; 
 
-    public int maxLives = 5;
-    private int currentLives;
-    public float slowTimeLifeLossRate = 0.5f;
-    public float stopTimeLifeLossRate = 2f;   
-    private bool isLosingLife = false;
+    public Transform startPoint;
+    public Transform player; 
+    private Rigidbody playerRigidbody;
+
+    private bool isSlowingDown = false;
+    private bool isTimeStopped = false;
 
     void Start()
     {
         Time.timeScale = normalTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
-        currentLives = maxLives;
-
-        
-        foreach (Rigidbody rb in FindObjectsOfType<Rigidbody>())
+        if (player != null)
         {
-            if (rb.gameObject != player)
-            {
-                affectedObjects.Add(rb);
-            }
+            playerRigidbody = player.GetComponent<Rigidbody>();
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(slowDownKey))
+        if (Input.GetKeyDown(slowDownKey) && playerLives > 0)
         {
             SlowDownTime();
         }
-        else if (Input.GetKeyDown(stopTimeKey))
+        else if (Input.GetKeyDown(stopTimeKey) && playerLives > 0)
         {
             StopTime();
         }
@@ -54,11 +49,19 @@ public class TimeController : MonoBehaviour
             ResetTime();
         }
 
-        
-        if (isLosingLife)
+        if (isSlowingDown)
         {
-            float lifeLossRate = (Time.timeScale == slowTimeScale) ? slowTimeLifeLossRate : stopTimeLifeLossRate;
-            LoseLifeOverTime(lifeLossRate);
+            playerLives -= Mathf.RoundToInt(slowLifeLossRate * Time.unscaledDeltaTime);
+        }
+        else if (isTimeStopped)
+        {
+            playerLives -= Mathf.RoundToInt(stopLifeLossRate * Time.unscaledDeltaTime);
+        }
+
+        if (playerLives <= 0)
+        {
+            playerLives = 0;
+            GameOver();
         }
     }
 
@@ -67,23 +70,17 @@ public class TimeController : MonoBehaviour
         Debug.Log("Slowing down time!");
         Time.timeScale = slowTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        isLosingLife = true;
-
-        foreach (Rigidbody obj in affectedObjects)
-        {
-            if (!obj.isKinematic) 
-            {
-                obj.linearVelocity *= slowTimeScale;
-                obj.angularVelocity *= slowTimeScale;
-            }
-        }
+        isSlowingDown = true;
+        isTimeStopped = false;
     }
 
     void StopTime()
     {
         Debug.Log("Stopping time!");
         Time.timeScale = 0f; 
-        isLosingLife = true;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        isTimeStopped = true;
+        isSlowingDown = false;
     }
 
     void ResetTime()
@@ -91,29 +88,47 @@ public class TimeController : MonoBehaviour
         Debug.Log("Resetting time to normal!");
         Time.timeScale = normalTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        isLosingLife = false;
+        isSlowingDown = false;
+        isTimeStopped = false;
     }
 
-    void LoseLifeOverTime(float rate)
+    void GameOver()
     {
-        int lifeLoss = Mathf.RoundToInt(rate * Time.unscaledDeltaTime);
-        if (lifeLoss > 0) 
-        {
-            currentLives -= lifeLoss;
-            currentLives = Mathf.Max(currentLives, 0);
-            Debug.Log("Life lost! Remaining: " + currentLives);
+        Debug.Log("Game Over! No lives remaining.");
+        ResetPlayerPosition();
+    }
 
-            RespawnPlayer(); 
+    void ResetPlayerPosition()
+    {
+        if (startPoint != null && player != null)
+        {
+            player.position = startPoint.position;
+            playerLives = 3;
+            Debug.Log("Player reset to start point.");
         }
     }
 
-    void RespawnPlayer()
+    void FixedUpdate()
     {
-        if (currentLives > 0)
+        if (playerRigidbody != null)
         {
-         
-            player.transform.position = startPoint.position;
-            Debug.Log("Player respawned at start point.");
+            if (Time.timeScale != 0f) 
+            {
+                Vector3 velocity = playerRigidbody.linearVelocity;
+                playerRigidbody.linearVelocity = velocity / Time.timeScale; 
+            }
         }
+    }
+
+    void MovePlayer()
+    {
+        float moveSpeed = 5f;
+
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        Vector3 move = new Vector3(horizontal, 0, vertical) * moveSpeed * Time.unscaledDeltaTime; // Use unscaledDeltaTime for consistent movement
+
+        player.position += move;
     }
 }
