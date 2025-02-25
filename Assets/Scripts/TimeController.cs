@@ -100,14 +100,20 @@ public class TimeController : MonoBehaviour
         if (lifeLoss > 0) 
         {
             currentLives -= lifeLoss;
+            currentLives = Mathf.Max(currentLives, 0);
             Debug.Log("Life lost! Remaining: " + currentLives);
+
             RespawnPlayer(); 
         }
+    }
 
-        if (currentLives <= 0)
+    void RespawnPlayer()
+    {
+        if (currentLives > 0)
         {
-            currentLives = 0;
-            GameOver();
+         
+            player.transform.position = startPoint.position;
+            Debug.Log("Player respawned at start point.");
         }
     }
 }
