@@ -101,13 +101,13 @@ public class TimeController : MonoBehaviour
         {
             currentLives -= lifeLoss;
             Debug.Log("Life lost! Remaining: " + currentLives);
-            RespawnPlayer(); 
+            //RespawnPlayer(); 
         }
 
         if (currentLives <= 0)
         {
             currentLives = 0;
-            GameOver();
+            //GameOver();
         }
     }
 }
