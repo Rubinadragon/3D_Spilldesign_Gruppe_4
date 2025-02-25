@@ -8,13 +8,30 @@ public class CrystalDestroy : MonoBehaviour
     //Hvis spilleren har samlet nok krystaller, spawn en siste stor riftkrystall
     //HUSK: Ha en variabel på spilleren som teller antall krystaller ødelagt.
     public GameObject RiftCrystals;
+    public GameObject RiftHome;
+    public GameObject RiftVector;
     private int TotalCrystalsDestroyed = 0;
-    private int CrystalAmountInLvl;
+    private int CrystalsDestroyedinLVL = 0;
 
+    //private int CrystalAmountInLvl;
     private void OnTriggerEnter(Collider other)
     {
-        TotalCrystalsDestroyed++;
-        Debug.Log(TotalCrystalsDestroyed);
-        Destroy(gameObject);
+        Vector3 RiftPosition = RiftVector.transform.position;
+        Quaternion RiftRotation = RiftVector.transform.rotation;
+        if(other.transform.tag == "RiftCrystal")
+        {
+            TotalCrystalsDestroyed++;
+            CrystalsDestroyedinLVL++;
+            Debug.Log(TotalCrystalsDestroyed);
+            Destroy(other.gameObject);
+        }
+        if(CrystalsDestroyedinLVL == 5)
+        {
+            //Lag en empty game object som holder på posisjonen til siste krystall
+            //Spawne en riften tilbake når nok krystaller er samlet,.
+            Instantiate(RiftHome, RiftPosition, RiftRotation);
+            CrystalsDestroyedinLVL = 0;
+        }
     }
+
 }
