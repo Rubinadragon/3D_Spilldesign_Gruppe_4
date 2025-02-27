@@ -18,6 +18,7 @@ public class TimeController : MonoBehaviour
 
     // Spilleren starter med 3 liv
     public int playerLives = 3; 
+    public Transform player;
 
     // Hvor raskt spilleren mister liv når tiden bremses eller stoppes
     public float slowLifeLossRate = 0.1f; //bremses
