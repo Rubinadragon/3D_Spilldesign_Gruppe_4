@@ -337,8 +337,8 @@ MonoBehaviour:
   resetTimeKey: 51
   slowTimeScale: 0.2
   playerLives: 3
-  lifeLossRate: 0.5
-  lifeGainRate: 1
+  slowLifeLossRate: 0.1
+  stopLifeLossRate: 0.5
   startPoint: {fileID: 821127901}
   player: {fileID: 216268607}
 --- !u!4 &397271384
@@ -751,6 +751,7 @@ GameObject:
   - component: {fileID: 1371115261}
   - component: {fileID: 1371115260}
   - component: {fileID: 1371115264}
+  - component: {fileID: 1371115265}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -874,6 +875,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1371115265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371115259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d725ead0c05483182431cc13859710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeController: {fileID: 397271383}
 --- !u!1 &1728554100
 GameObject:
   m_ObjectHideFlags: 0
