@@ -24,8 +24,6 @@ public class TimeController : MonoBehaviour
     public float stopLifeLossRate = 0.5f; //stoppes
 
     // Startpunktet til spilleren og referanse til spilleren som objekt
-    public Transform startPoint;
-    public Transform player; 
     private Rigidbody playerRigidbody;
 
     // Variabler for å kontrollere om tiden er bremset eller stoppet
@@ -81,15 +79,6 @@ public class TimeController : MonoBehaviour
         {
             playerLives -= Mathf.RoundToInt(stopLifeLossRate * Time.unscaledDeltaTime);
         }
-
-        // Hvis spilleren har 0 liv, trigges GameOver
-        if (playerLives <= 0)
-        {
-            // Sørger for at liv ikke går under null
-            playerLives = 0; 
-            // Kaller GameOver-funksjonen
-            GameOver(); 
-        }
     }
 
     // Funksjon for å bremse tiden
@@ -133,28 +122,6 @@ public class TimeController : MonoBehaviour
 
         // Kaller hendelsen for at alle objekter skal vite at tiden er tilbake til normal
         OnTimeReset?.Invoke();
-    }
-
-    // Funksjon som håndterer Game Over-logikken når spilleren har mistet alle livene
-    void GameOver()
-    {
-        // Vist i konsollen når spillet er over
-        Debug.Log("Game Over! Ingen liv igjen."); 
-        // Tilbakestiller spilleren til startpunktet
-        ResetPlayerPosition(); 
-    }
-
-    // Funksjon som tilbakestiller spilleren til startpunktet og gjenoppretter livene
-    void ResetPlayerPosition()
-    {
-        if (startPoint != null && player != null)
-        {
-            // Setter spillerens posisjon tilbake til startpunktet
-            player.position = startPoint.position; 
-            // Gjenoppretter spilleren sine liv
-            playerLives = 3; 
-            Debug.Log("Spilleren resettes til startpunktet.");
-        }
     }
 
     // Funksjon som oppdaterer fysikkhastigheten til spilleren som gjør at spilleren ikke beveger seg for fort når tiden er endret.
