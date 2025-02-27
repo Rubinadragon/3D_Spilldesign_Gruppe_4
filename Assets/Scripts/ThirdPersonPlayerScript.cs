@@ -49,6 +49,7 @@ public class ThirdPersonPlayer : MonoBehaviour
         // Sjekker om spilleren er p� bakken ved hjelp av en Raycast
         Vector3 origin = transform.position + Vector3.up * 0.1f;
         isGrounded = Physics.Raycast(origin, Vector3.down, 0.3f);
+        Debug.Log(isGrounded);
     }
 
     private void Move()
@@ -82,7 +83,7 @@ public class ThirdPersonPlayer : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded) // Bare hopp hvis spilleren er p� bakken
+        if (!isGrounded) // Bare hopp hvis spilleren er p� bakken
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }
